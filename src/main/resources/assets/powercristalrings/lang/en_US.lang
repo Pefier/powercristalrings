@@ -1,0 +1,25 @@
+
+#Items
+
+item.powercristalrings:PowerCristall.Red.name=Impure Red Power Cristal
+item.powercristalrings:PowerCristall.Blue.name=Impure Blue Power Cristal
+item.powercristalrings:PowerCristall.Green.name=Impure Green Power Cristal
+item.powercristalrings:PowerCristall.Yellow.name=Impure Yellow Power Cristal
+item.powercristalrings:PowerCristallUnlocked.Red.name=Red Power Cristal
+item.powercristalrings:PowerCristallUnlocked.Blue.name=Blue Power Cristal
+item.powercristalrings:PowerCristallUnlocked.Green.name=Green Power Cristal
+item.powercristalrings:PowerCristallUnlocked.Yellow.name=Yellow Power Cristal
+item.powercristalrings:RingGreenLantern.normal.name=Power Ring
+item.powercristalrings:RingGreenLantern.aktive.name=Power Ring
+
+
+
+#Tile
+tile.powercristalrings:charge.name=Ring Charging Station
+tile.powercristalrings:PowerCristallOre.name=Power Cristal Ore
+tile.powercristalrings:CraftingSurface.name=Ring Builder
+tile.powercristalrings:CristallForge.name=Cristal Forge
+
+#Keys
+Keys.powercristalrings.category=MFM
+Keys.powercristalrings.aktivate=Aktivation

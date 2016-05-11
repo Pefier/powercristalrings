@@ -163,7 +163,7 @@ public class BlockCristallForge extends BlockContainerPCR {
         return new BlockStateContainer(this, new IProperty[] {FACING});
     }
 
-
+    /* maybe that caused the crash
     @Override
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 
@@ -202,4 +202,5 @@ public class BlockCristallForge extends BlockContainerPCR {
 
 
     }
+    */
 }

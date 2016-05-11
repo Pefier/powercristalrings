@@ -2,7 +2,7 @@ package com.pefier.powercristalrings.crafting;
 
 
 import com.pefier.powercristalrings.init.ModItems;
-import javafx.util.Pair;
+import com.pefier.powercristalrings.utility.Pair;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -22,7 +22,6 @@ public class ForgeRecipes {
 
     private HashMap<Pair<ItemStack,ItemStack>,ItemStack> metaForgeTable=new HashMap<Pair<ItemStack, ItemStack>, ItemStack>();
 
-    private HashMap<ItemStack, ItemStack> metaForgeList = new HashMap<ItemStack, ItemStack>();
 
 
     public static final ForgeRecipes recipes() {
@@ -78,8 +77,4 @@ public class ForgeRecipes {
         return flag;
     }
 
-
-    public Map<ItemStack, ItemStack> getMetaInscribingList() {
-        return metaForgeList;
-    }
 }

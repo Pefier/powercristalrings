@@ -1,0 +1,17 @@
+[
+{
+  "modid": "powercristalrings",
+  "name": "Power Cristal Rings",
+  "description": "Find some cristals and make a powerfull Power Ring",
+  "version": "1.0",
+  "mcversion": "1.9",
+  "logoFile": "",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["pefier"],
+  "credits": "",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

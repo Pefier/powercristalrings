@@ -3,7 +3,7 @@ package com.pefier.powercristalrings.utility;
 import java.io.Serializable;
 
 /**
- * Created by New Profile on 11.05.2016.
+ * Created by Pefier on 11.05.2016.
  */
 public class Pair<K,V> implements Serializable {
 
@@ -13,12 +13,12 @@ public class Pair<K,V> implements Serializable {
         return key;
     }
 
-
     private V value;
 
     public V getValue() {
         return value;
     }
+
     public Pair(K key,V value){
         this.key = key;
         this.value = value;

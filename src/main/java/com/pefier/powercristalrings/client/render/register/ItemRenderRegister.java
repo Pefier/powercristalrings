@@ -37,6 +37,7 @@ public class ItemRenderRegister {
         reg(ModItems.powerCristallUnlocked,2,"PowerCristallUnlockedGreen");
         reg(ModItems.powerCristallUnlocked,3,"PowerCristallUnlockedYellow");
         // no metadata
+        reg(ModItems.cristallPearl);
 
 
 

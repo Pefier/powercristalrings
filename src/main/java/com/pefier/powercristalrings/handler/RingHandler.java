@@ -6,9 +6,11 @@ import com.pefier.powercristalrings.reference.Name;
 import com.pefier.powercristalrings.utility.InventoryHelper;
 import com.pefier.powercristalrings.utility.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemPickaxe;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * Created by New Profile on 13.04.2016.
@@ -23,6 +25,13 @@ public class RingHandler {
         }
 
         if(InventoryHelper.getItemStackinInventory(event.getEntityPlayer(), ModItems.ringGreenLantern).getMetadata() !=1){
+            return;
+        }
+        if (event.getEntityPlayer().inventory.getCurrentItem() == null){
+            return;
+
+        }
+        if(!(event.getEntityPlayer().inventory.getCurrentItem().getItem() instanceof ItemPickaxe)){
             return;
         }
 

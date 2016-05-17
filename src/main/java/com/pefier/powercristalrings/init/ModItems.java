@@ -12,22 +12,15 @@ public class ModItems {
     public static Item ringGreenLantern;
     public static Item powerCristall;
     public static Item powerCristallUnlocked;
+    public static Item cristallPearl;
 
 
     public static void preinit(){
-
-        //Normal Items
 
 
         ringGreenLantern = new ItemRingGreenLanter();
         powerCristall = new ItemPowerCristall();
         powerCristallUnlocked = new ItemPowerCristallUnlocked();
-
-
-
-
-
-
-
+        cristallPearl = new ItemCristallPearl();
     }
 }

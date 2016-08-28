@@ -31,10 +31,10 @@ public class ForgeRecipes {
     private ForgeRecipes() {
         //addRecipiesHERE
 
-        this.addForgeRecipe(new ItemStack(ModItems.powerCristall,1,0),new ItemStack(Items.diamond),new ItemStack(ModItems.powerCristallUnlocked,1,0));
-        this.addForgeRecipe(new ItemStack(ModItems.powerCristall,1,1),new ItemStack(Items.diamond),new ItemStack(ModItems.powerCristallUnlocked,1,1));
-        this.addForgeRecipe(new ItemStack(ModItems.powerCristall,1,2),new ItemStack(Items.diamond),new ItemStack(ModItems.powerCristallUnlocked,1,2));
-        this.addForgeRecipe(new ItemStack(ModItems.powerCristall,1,3),new ItemStack(Items.diamond),new ItemStack(ModItems.powerCristallUnlocked,1,3));
+        this.addForgeRecipe(new ItemStack(ModItems.powerCristall,1,0),new ItemStack(Items.DIAMOND),new ItemStack(ModItems.powerCristallUnlocked,1,0));
+        this.addForgeRecipe(new ItemStack(ModItems.powerCristall,1,1),new ItemStack(Items.DIAMOND),new ItemStack(ModItems.powerCristallUnlocked,1,1));
+        this.addForgeRecipe(new ItemStack(ModItems.powerCristall,1,2),new ItemStack(Items.DIAMOND),new ItemStack(ModItems.powerCristallUnlocked,1,2));
+        this.addForgeRecipe(new ItemStack(ModItems.powerCristall,1,3),new ItemStack(Items.DIAMOND),new ItemStack(ModItems.powerCristallUnlocked,1,3));
 
     }
 

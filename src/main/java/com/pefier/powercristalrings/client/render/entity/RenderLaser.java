@@ -25,6 +25,7 @@ public class RenderLaser extends Render<EntityLaser> {
         super(renderManager);
     }
 
+    @Override
     public void doRender(EntityLaser entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         this.bindEntityTexture(entity);
@@ -35,7 +36,9 @@ public class RenderLaser extends Render<EntityLaser> {
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer vertexbuffer = tessellator.getBuffer();
+
         int i = 0;
+
         float f = 0.0F;
         float f1 = 0.5F;
         float f2 = (float)(0 + i * 10) / 32.0F;
@@ -45,6 +48,7 @@ public class RenderLaser extends Render<EntityLaser> {
         float f6 = (float)(5 + i * 10) / 32.0F;
         float f7 = (float)(10 + i * 10) / 32.0F;
         float f8 = 0.05625F;
+
         GlStateManager.enableRescaleNormal();
 
         GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);

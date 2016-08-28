@@ -22,7 +22,7 @@ public class BlockCraftingSurface extends BlockPCR {
     private static final String name="CraftingSurface";
 
     public BlockCraftingSurface(){
-        super(Material.piston);
+        super(Material.PISTON);
         setUnlocalizedName(name);
         this.setRegistryName(Reference.MOD_ID,name);
         GameRegistry.register(this);

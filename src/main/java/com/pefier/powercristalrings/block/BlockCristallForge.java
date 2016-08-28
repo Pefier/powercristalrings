@@ -31,7 +31,7 @@ public class BlockCristallForge extends BlockContainerPCR {
     private static final String name = "CristallForge";
 
     public BlockCristallForge() {
-        super(Material.piston);
+        super(Material.PISTON);
         setUnlocalizedName(name);
         this.setRegistryName(Reference.MOD_ID,name);
         GameRegistry.register(this);
@@ -163,44 +163,5 @@ public class BlockCristallForge extends BlockContainerPCR {
         return new BlockStateContainer(this, new IProperty[] {FACING});
     }
 
-    /* is not on the rigth position
-    @Override
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 
-        //X
-        float f1 = (float)pos.getX() + 0.9F;
-        //z
-        float f2 = (float)pos.getZ() + 0.75F;
-
-        float r1 = rand.nextFloat() * 0.3F -0.3F;
-        float r2 = rand.nextFloat() * 0.3F -0.3F;
-
-        float f8 = (float)pos.getY() + 0.7F;
-        float f9 = (float)pos.getY() + 0.5F;
-        float f10 = (float)pos.getY() + 0.6F;
-
-        //X
-        float f11 = (float)pos.getX() + 0.9F;
-        //Z
-        float f12 = (float)pos.getZ() + 0.75F;
-
-
-        if(world.getTileEntity(pos) instanceof TileCristallForge) {
-           if (((TileCristallForge) world.getTileEntity(pos)).canForge()&& ((TileCristallForge) world.getTileEntity(pos)).isForging()) {
-                world.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, (double) (f1+r1), (double)f9, (double)(f2+r2), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, (double) (f1+r1), (double)f10, (double)(f2+r2), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, (double) (f1+r1), (double)f8, (double)(f2+r2), 0.0D, 0.0D, 0.0D);
-
-                world.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, (double) (f11 + r1), (double) f9, (double) (f12 + r2), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, (double) (f11 + r1), (double) f10, (double) (f12 + r2), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle(EnumParticleTypes.SUSPENDED_DEPTH, (double) (f11 + r1), (double) f8, (double) (f12 + r2), 0.0D, 0.0D, 0.0D);
-
-
-           }
-        }
-
-
-
-    }
-    */
 }

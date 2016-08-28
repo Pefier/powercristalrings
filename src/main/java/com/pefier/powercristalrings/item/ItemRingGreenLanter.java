@@ -72,7 +72,7 @@ public class ItemRingGreenLanter extends ItemPCR {
                 if (!worldIn.isRemote) {
 
                     EntityLaser entityLaser = new EntityLaser(worldIn, playerIn);
-                    entityLaser.func_184538_a(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.3F, 0.0F);
+                    entityLaser.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.3F, 0.0F);
                     worldIn.spawnEntityInWorld(entityLaser);
 
                     charge-= 15 ;

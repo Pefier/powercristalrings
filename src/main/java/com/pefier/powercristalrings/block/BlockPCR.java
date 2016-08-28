@@ -18,7 +18,7 @@ public class BlockPCR extends Block{
     }
 
     public BlockPCR() {
-        this(Material.rock);
+        this(Material.ROCK);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class BlockCharger extends BlockContainerPCR {
     private static final String name="Charger";
 
     public BlockCharger() {
-        super(Material.piston);
+        super(Material.CIRCUITS);
         setUnlocalizedName(name);
         this.setRegistryName(Reference.MOD_ID,name);
         GameRegistry.register(this);

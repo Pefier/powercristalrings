@@ -15,6 +15,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
 
+import javax.annotation.Nullable;
+
 
 /**
  * Created by New Profile on 22.03.2016.
@@ -30,7 +32,7 @@ public class TileCharger extends TileEntity implements ITickable,IInventory{
 
     }
     @Override
-    public void writeToNBT(NBTTagCompound compound){
+    public NBTTagCompound writeToNBT(NBTTagCompound compound){
         super.writeToNBT(compound);
         NBTTagList nbttaglist = new NBTTagList();
         for (int i = 0; i < itemStackArray.length; ++i)
@@ -45,6 +47,7 @@ public class TileCharger extends TileEntity implements ITickable,IInventory{
         }
 
         compound.setTag("Items", nbttaglist);
+        return compound;
 
     }
     @Override
@@ -198,12 +201,14 @@ public class TileCharger extends TileEntity implements ITickable,IInventory{
         return null;
     }
 
+    @Nullable
     @Override
-    public Packet<?> getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket() {
         NBTTagCompound nbt = new NBTTagCompound();
         this.writeToNBT(nbt);
         return new SPacketUpdateTileEntity(this.getPos(),1, nbt);
     }
+
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {

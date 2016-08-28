@@ -47,7 +47,7 @@ public class SlotCrystallCrafting extends SlotCrafting {
                 }
                 else if (!this.thePlayer.inventory.addItemStackToInventory(itemstack1))
                 {
-                    this.thePlayer.dropPlayerItemWithRandomChoice(itemstack1, false);
+                    this.thePlayer.dropItem(itemstack1,false);
                 }
             }
         }

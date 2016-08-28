@@ -19,6 +19,8 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 
+import javax.annotation.Nullable;
+
 
 /**
  * Created by New Profile on 07.04.2016.
@@ -369,7 +371,7 @@ public class TileCristallForge extends TileEntity implements ISidedInventory, IT
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound){
+    public NBTTagCompound writeToNBT(NBTTagCompound compound){
         super.writeToNBT(compound);
         compound.setInteger("CurrentForgeTime", forgeBurnTime);
         compound.setInteger("CookTime", currentItemForgeBurnTime);
@@ -393,11 +395,13 @@ public class TileCristallForge extends TileEntity implements ISidedInventory, IT
         {
             compound.setString("CustomName", CristallForgeCustomName);
         }
+        return compound;
 
     }
 
+    @Nullable
     @Override
-    public Packet<?> getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket() {
         NBTTagCompound nbt = new NBTTagCompound();
         this.writeToNBT(nbt);
         return new SPacketUpdateTileEntity(this.getPos(),1, nbt);

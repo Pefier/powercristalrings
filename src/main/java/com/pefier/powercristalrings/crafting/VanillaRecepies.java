@@ -14,10 +14,10 @@ import net.minecraftforge.oredict.OreDictionary;
 public class VanillaRecepies {
 
     public static void init(){
-        GameRegistry.addRecipe( new ItemStack(ModBlocks.cristallForge) ,"ggg","cfc","ooo",'o', Blocks.obsidian,'g',Blocks.glass,'c', new ItemStack(ModItems.powerCristall,1, OreDictionary.WILDCARD_VALUE), 'f',Blocks.furnace);
-        GameRegistry.addRecipe(new ItemStack(ModBlocks.charger),"o o","oco","ooo", 'o',Blocks.obsidian,'c',new ItemStack(ModItems.powerCristallUnlocked,1, OreDictionary.WILDCARD_VALUE));
-        GameRegistry.addRecipe(new ItemStack(ModBlocks.craftingSurface),"oco","ctc","oco",'o',Blocks.obsidian,'c',new ItemStack(ModItems.powerCristallUnlocked,1, OreDictionary.WILDCARD_VALUE),'t',Blocks.crafting_table);
-        GameRegistry.addRecipe(new ItemStack(ModItems.cristallPearl),"cec","epe","cec",'c',new ItemStack(ModItems.powerCristallUnlocked,1, OreDictionary.WILDCARD_VALUE),'e', Items.ender_eye,'p',Items.ender_pearl);
+        GameRegistry.addRecipe( new ItemStack(ModBlocks.cristallForge) ,"ggg","cfc","ooo",'o', Blocks.OBSIDIAN,'g',Blocks.GLASS,'c', new ItemStack(ModItems.powerCristall,1, OreDictionary.WILDCARD_VALUE), 'f',Blocks.FURNACE);
+        GameRegistry.addRecipe(new ItemStack(ModBlocks.charger),"o o","oco","ooo", 'o',Blocks.OBSIDIAN,'c',new ItemStack(ModItems.powerCristallUnlocked,1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addRecipe(new ItemStack(ModBlocks.craftingSurface),"oco","ctc","oco",'o',Blocks.OBSIDIAN,'c',new ItemStack(ModItems.powerCristallUnlocked,1, OreDictionary.WILDCARD_VALUE),'t',Blocks.CRAFTING_TABLE);
+        GameRegistry.addRecipe(new ItemStack(ModItems.cristallPearl),"cec","epe","cec",'c',new ItemStack(ModItems.powerCristallUnlocked,1, OreDictionary.WILDCARD_VALUE),'e', Items.ENDER_EYE,'p',Items.ENDER_PEARL);
 
     }
 }

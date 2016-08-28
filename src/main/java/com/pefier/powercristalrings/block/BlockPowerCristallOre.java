@@ -17,7 +17,7 @@ import java.util.Random;
 public class BlockPowerCristallOre extends BlockPCR {
     private static final String name="PowerCristallOre";
     public BlockPowerCristallOre(){
-        super(Material.rock);
+        super(Material.ROCK);
         setUnlocalizedName(name);
         this.setRegistryName(Reference.MOD_ID,name);
         GameRegistry.register(this);

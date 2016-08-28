@@ -28,7 +28,7 @@ public class EntityDamageSourceLaser extends EntityDamageSourceIndirect {
         String s1 = s + ".item";
 
         return stack != null && stack.hasDisplayName() && I18n.canTranslate(s1) ? //StatCollector.canTranslate = I18n.can...
-                new TextComponentTranslation(s1, target.getDisplayName(), source, stack.getChatComponent()) :
+                new TextComponentTranslation(s1, target.getDisplayName(), source, stack.getTextComponent()) :
                 new TextComponentTranslation(s, target.getDisplayName(), source);
     }
     public static EntityDamageSourceLaser causeLaserDamage(Entity source, Entity transmitter) {

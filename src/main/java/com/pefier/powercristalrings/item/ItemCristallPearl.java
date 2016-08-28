@@ -30,17 +30,17 @@ public class ItemCristallPearl extends ItemPCR {
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 
-        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.entity_enderpearl_throw, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         playerIn.getCooldownTracker().setCooldown(this, 20);
 
         if (!worldIn.isRemote)
         {
             EntityEnderPearl entityenderpearl = new EntityEnderPearl(worldIn, playerIn);
-            entityenderpearl.func_184538_a(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+            entityenderpearl.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.spawnEntityInWorld(entityenderpearl);
         }
 
-        playerIn.addStat(StatList.func_188057_b(this));
+        playerIn.addStat(StatList.getObjectUseStats(this));
 
         return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
 

@@ -4,6 +4,7 @@ package com.pefier.powercristalrings.client.handler;
 import com.pefier.powercristalrings.reference.Reference;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Created by New Profile on 20.04.2016.
@@ -12,10 +13,10 @@ public class ModSoundHandler {
 
     public static SoundEvent laser;
 
-    private  static int id;
-
     public static void init(){
-        id=SoundEvent.soundEventRegistry.getKeys().size();
+
+
+
         laser = register("laser");
 
 
@@ -23,9 +24,7 @@ public class ModSoundHandler {
 
     public static SoundEvent register(String name) {
         ResourceLocation location = new ResourceLocation(Reference.MOD_ID + ":" + name);
-        SoundEvent event = new SoundEvent(location);
-        SoundEvent.soundEventRegistry.register(id,location,event);
-        id++;
+        SoundEvent event = GameRegistry.register(new SoundEvent(location).setRegistryName(name));
         return event;
 
     }

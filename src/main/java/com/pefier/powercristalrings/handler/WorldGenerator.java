@@ -39,7 +39,7 @@ public class WorldGenerator implements IWorldGenerator {
 
     }
     private void overWorld(Random random,int x , int z , World world){
-        GenerationHelper.generateOre(ModBlocks.powerCristallOre.getDefaultState(), Blocks.stone,random,x,z,world,20,0,20,1,5);
+        GenerationHelper.generateOre(ModBlocks.powerCristallOre.getDefaultState(), Blocks.STONE,random,x,z,world,20,0,20,1,5);
 
 
 

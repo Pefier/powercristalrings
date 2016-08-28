@@ -5,7 +5,8 @@ import com.pefier.powercristalrings.init.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
+
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -70,24 +71,24 @@ public class ContainerCirstallForge extends Container{
     public void detectAndSendChanges() {
       super.detectAndSendChanges();
 
-      for (int i = 0; i < this.crafters.size(); ++i) {
+      for (int i = 0; i < this.listeners.size(); ++i) {
 
-          ICrafting icrafting = (ICrafting) this.crafters.get(i);
+          IContainerListener icontainerlistener= (IContainerListener) this.listeners.get(i);
 
           if (this.forgeTime != forge.getField(2)) {
 
-              icrafting.sendProgressBarUpdate(this, 2, forge.getField(2));
+              icontainerlistener.sendProgressBarUpdate(this, 2, forge.getField(2));
           }
 
           if (this.forgeBurnTime!= forge.getField(0)) {
-              icrafting.sendProgressBarUpdate(this, 0, forge.getField(0));
+              icontainerlistener.sendProgressBarUpdate(this, 0, forge.getField(0));
           }
           if (this.currentItemForgeBurnTime!= forge.getField(1)){
-              icrafting.sendProgressBarUpdate(this,1,forge.getField(1));
+              icontainerlistener.sendProgressBarUpdate(this,1,forge.getField(1));
           }
 
           if (this.totalForgeTime != forge.getField(3)) {
-              icrafting.sendProgressBarUpdate(this, 3, forge.getField(3));
+              icontainerlistener.sendProgressBarUpdate(this, 3, forge.getField(3));
           }
 
 

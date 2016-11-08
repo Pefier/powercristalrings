@@ -1,10 +1,9 @@
 package com.pefier.powercristalrings.item;
 
+import com.pefier.powercristalrings.capability.WillpowerProvider;
 import com.pefier.powercristalrings.client.handler.ModSoundHandler;
 import com.pefier.powercristalrings.entity.throwabel.EntityLaser;
-import com.pefier.powercristalrings.reference.Name;
 import com.pefier.powercristalrings.reference.Reference;
-import com.pefier.powercristalrings.utility.NBTHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,11 +11,13 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.lwjgl.input.Keyboard;
 
@@ -50,33 +51,31 @@ public class ItemRingGreenLanter extends ItemPCR {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+
         if(playerIn.isSneaking()) {
 
-            if (NBTHelper.getNBTTagBoolean(itemStackIn, Name.NBTKey.TAG_STATUS, Name.NBTKey.TAG_RINGDATA) && NBTHelper.getNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA) > 0) {
-
+            if (itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).isStatus() && itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getWillpower() > 0) {
                 activate(playerIn,itemStackIn);
-                NBTHelper.setNBTTagBoolean(itemStackIn, Name.NBTKey.TAG_STATUS, Name.NBTKey.TAG_RINGDATA, false);
+                itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setStatus(false);
 
             } else {
-
                 deActivate(playerIn,itemStackIn);
-                NBTHelper.setNBTTagBoolean(itemStackIn, Name.NBTKey.TAG_STATUS, Name.NBTKey.TAG_RINGDATA, true);
+                itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setStatus(true);
 
             }
-            System.out.print(NBTHelper.getNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA));
-        }else{
-            if(!NBTHelper.getNBTTagBoolean(itemStackIn, Name.NBTKey.TAG_STATUS, Name.NBTKey.TAG_RINGDATA) &&  NBTHelper.getNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA) > 0){
 
-                int charge = NBTHelper.getNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA);
+        }else{
+            if(!itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).isStatus()&&  itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getWillpower() > 0){
+
+
                 worldIn.playSound(playerIn,playerIn.posX,playerIn.posY,playerIn.posZ, ModSoundHandler.laser, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
                 if (!worldIn.isRemote) {
 
                     EntityLaser entityLaser = new EntityLaser(worldIn, playerIn);
                     entityLaser.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.3F, 0.0F);
                     worldIn.spawnEntityInWorld(entityLaser);
+                    itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).consumeWillpower(15);
 
-                    charge-= 15 ;
-                    NBTHelper.setNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA, charge);
                 }
             }
 
@@ -87,22 +86,18 @@ public class ItemRingGreenLanter extends ItemPCR {
     @Override
     public void onUpdate(ItemStack itemStackIn, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         super.onUpdate(itemStackIn, worldIn, entityIn, itemSlot, isSelected);
-        if(itemStackIn.hasTagCompound()) {
-            int charge = NBTHelper.getNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA);
-                if (NBTHelper.getNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA) > 0 && !NBTHelper.getNBTTagBoolean(itemStackIn, Name.NBTKey.TAG_STATUS, Name.NBTKey.TAG_RINGDATA)) {
-                    charge--;
-                    NBTHelper.setNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA, charge);
-                }
-                if (NBTHelper.getNBTTagInt(itemStackIn, Name.NBTKey.TAG_CHARGE, Name.NBTKey.TAG_RINGDATA) <= 0) {
-                    if (entityIn instanceof EntityPlayer) {
 
-                        deActivate((EntityPlayer) entityIn, itemStackIn);
+        if ( itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getWillpower() > 0 && !itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).isStatus()) {
+            itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).consumeWillpower(1);
 
-                        NBTHelper.setNBTTagBoolean(itemStackIn, Name.NBTKey.TAG_STATUS, Name.NBTKey.TAG_RINGDATA, true);
-                    }
-                }
         }
+        if (itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getWillpower() <= 0) {
+            if (entityIn instanceof EntityPlayer) {
 
+                deActivate((EntityPlayer) entityIn, itemStackIn);
+                itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setStatus(true);
+            }
+        }
     }
 
     @Override
@@ -116,18 +111,20 @@ public class ItemRingGreenLanter extends ItemPCR {
         subItems.add(new ItemStack(itemIn, 1, 1));
     }
 
+    /**Method gets called wenn Item gets Activated */
     private void activate(EntityPlayer playerIn, ItemStack itemStackIn){
 
         playerIn.capabilities.allowFlying = true;
         playerIn.capabilities.isFlying = true;
         if(playerIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getModifier(id) == null) {
-            playerIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).applyModifier(new AttributeModifier(id,"Speedmod",NBTHelper.getNBTTagDouble(itemStackIn,Name.NBTKey.TAG_ATTACKSPEED,Name.NBTKey.TAG_RINGDATA),0));
+            playerIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).applyModifier(new AttributeModifier(id,"Speedmod",itemStackIn.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getAttackSpeed(),0));
         }
         System.out.println("aktive");
         itemStackIn.setItemDamage(1);
 
     }
 
+    /** */
     private void deActivate(EntityPlayer playerIn, ItemStack itemStackIn){
 
         playerIn.capabilities.allowFlying = false;
@@ -141,17 +138,23 @@ public class ItemRingGreenLanter extends ItemPCR {
 
     }
 
+    /**adds tolltip to item */
     @Override //is ClientSide only
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
         super.addInformation(stack, playerIn, tooltip, advanced);
         tooltip.add("Press Shift for information");
 
         if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)||Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-            tooltip.add(NBTHelper.printNBTInt(stack,Name.NBTKey.TAG_DMGREDUKTION,Name.NBTKey.TAG_RINGDATA,"Damage Reduktion: "));
-            tooltip.add(NBTHelper.printNBTDouble(stack,Name.NBTKey.TAG_ATTACKSPEED,Name.NBTKey.TAG_RINGDATA,"Attack Speed: "));
-            tooltip.add(NBTHelper.printNBTInt(stack,Name.NBTKey.TAG_DMGINCREASE,Name.NBTKey.TAG_RINGDATA,"Laser Damage: "));
+            tooltip.add("Damage Reduction: " + stack.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY, null).getDmgReduction());
+            tooltip.add("Attack Speed: "+stack.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getAttackSpeed());
+            tooltip.add("Laser Damage: "+ stack.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getDmgIncrease());
         }
 
 
+    }
+
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+        return new WillpowerProvider();
     }
 }

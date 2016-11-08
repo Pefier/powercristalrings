@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class GuiCristallForge extends GuiContainer {
 
-    public static final ResourceLocation BACKGROUND = new ResourceLocation(Reference.MOD_ID +":textures/gui/CristallForge.png");
+    public static final ResourceLocation BACKGROUND = new ResourceLocation(Reference.MOD_ID +":textures/gui/cristall_forge.png");
     private TileCristallForge cristallForge;
 
     public GuiCristallForge(InventoryPlayer playerInv, TileCristallForge cristallForge) {

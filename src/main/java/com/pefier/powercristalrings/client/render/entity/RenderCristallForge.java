@@ -83,8 +83,6 @@ public class RenderCristallForge extends TileEntitySpecialRenderer<TileCristallF
 
         if(stack != null){
             GlStateManager.translate(x, y, z);
-           // EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack);
-           // entityitem.hoverStart = 0.0F;
             GlStateManager.pushMatrix();
             GlStateManager.disableLighting();
 

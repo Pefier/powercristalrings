@@ -1,7 +1,7 @@
 {
-  "parent": "builtin/generated",
+  "parent": "item/generated",
   "textures": {
-    "layer0": "powercristalrings:items/PowerCristallGreen"
+    "layer0": "powercristalrings:items/power_cristall_green"
   },
   "display": {
     "thirdperson": {

@@ -4,6 +4,7 @@ import com.pefier.powercristalrings.PowerCristalRings;
 import com.pefier.powercristalrings.entity.tileentity.TileCristallForge;
 import com.pefier.powercristalrings.reference.Name;
 import com.pefier.powercristalrings.reference.Reference;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -25,10 +26,10 @@ import java.util.Random;
 /**
  * Created by New Profile on 07.04.2016.
  */
-public class BlockCristallForge extends BlockContainerPCR {
+public class BlockCristallForge extends BlockPCR implements ITileEntityProvider {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-    private static final String name = "CristallForge";
+    private static final String name = "cristall_forge";
 
     public BlockCristallForge() {
         super(Material.PISTON);

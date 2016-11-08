@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Random;
 
@@ -15,7 +16,7 @@ import java.util.Random;
  * Created by New Profile on 28.03.2016.
  */
 public class BlockPowerCristallOre extends BlockPCR {
-    private static final String name="PowerCristallOre";
+    private static final String name="power_cristall_ore";
     public BlockPowerCristallOre(){
         super(Material.ROCK);
         setUnlocalizedName(name);
@@ -25,6 +26,7 @@ public class BlockPowerCristallOre extends BlockPCR {
         this.setHarvestLevel("pickaxe",3);
         this.setHardness(20.5F);
         this.setResistance(3000F);
+        OreDictionary.registerOre("orePowerCristall",this);
 
     }
 

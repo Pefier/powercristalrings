@@ -1,13 +1,11 @@
 package com.pefier.powercristalrings.crafting;
 
 import com.google.common.collect.Lists;
+import com.pefier.powercristalrings.capability.WillpowerProvider;
 import com.pefier.powercristalrings.init.ModItems;
-import com.pefier.powercristalrings.reference.Name;
-import com.pefier.powercristalrings.utility.NBTHelper;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -15,13 +13,14 @@ import java.util.List;
 /**
  * Created by New Profile on 11.04.2016.
  */
+
+
 public class SurfaceShapelessRecipes implements IRecipe {
     private int maxcharge=12000;
     private int rechargerate=100;
     private int dmgreduction=0;
     private int dmgIncrease=0;
     private int minigSpeed=0;
-    private int jumphight=0;
     private double attackspeed=0;
 
     private final ItemStack recipeOutput;
@@ -72,34 +71,36 @@ public class SurfaceShapelessRecipes implements IRecipe {
                 ItemStack itemStack = inv.getStackInRowAndColumn(j,i);
                 if(itemStack!= null) {
                     if(itemStack.getItem() == ModItems.powerCristallUnlocked) {
+                            /** Cristal Color Red*/
                         if (itemStack.getMetadata() == 0) {
                             maxcharge -= 300;
                             dmgIncrease += 2;
-
+                            /** Cristal Color Blue*/
                         } else if (itemStack.getMetadata() == 1) {
                             maxcharge += 600;
-
+                            /** Cristal Color Green*/
                         } else if (itemStack.getMetadata() == 2) {
                             maxcharge -=300;
                             dmgreduction += 15;
                             attackspeed += 0.75D;
                             rechargerate -= 20;
+                            /** Cristal Color Yellow*/
                         } else if (itemStack.getMetadata() == 3) {
                             maxcharge -= 450;
                             rechargerate += 20;
                             minigSpeed += 9;
+
                         }
                     }
                 }
             }
         }
-        ItemStack output =initNBTonRing(recipeOutput);
+        ItemStack output =initRingStatts(recipeOutput);
         maxcharge=12000;
-        rechargerate=10;
+        rechargerate=100;
         dmgreduction=0;
         dmgIncrease=0;
         minigSpeed=0;
-        jumphight=0;
         attackspeed=0;
         return output.copy();
     }
@@ -125,33 +126,20 @@ public class SurfaceShapelessRecipes implements IRecipe {
         }
 
         return aitemstack;
+
     }
 
-    private ItemStack initNBTonRing(ItemStack stack){
+    private ItemStack initRingStatts(ItemStack stack){
         ItemStack stack1 = stack;
-        if(!stack1.hasTagCompound()){
-            NBTTagCompound data = new NBTTagCompound();
-            data.setBoolean(Name.NBTKey.TAG_STATUS,true);
-            data.setInteger(Name.NBTKey.TAG_CHARGE,0);
-            data.setInteger(Name.NBTKey.TAG_MAX_CHARGE,maxcharge);
-            data.setInteger(Name.NBTKey.TAG_RECHARGERATE,rechargerate);
-            data.setInteger(Name.NBTKey.TAG_DMGINCREASE,dmgIncrease);
-            data.setInteger(Name.NBTKey.TAG_DMGREDUKTION,dmgreduction);
-            data.setInteger(Name.NBTKey.TAG_MININGSPEED,minigSpeed);
-            data.setInteger(Name.NBTKey.TAG_JUMPHIGHT,jumphight);
-            data.setDouble(Name.NBTKey.TAG_ATTACKSPEED,attackspeed);
-            stack1.setTagInfo(Name.NBTKey.TAG_RINGDATA,data);
-        }else{
-            NBTHelper.setNBTTagBoolean(stack1,Name.NBTKey.TAG_STATUS,Name.NBTKey.TAG_RINGDATA,true);
-            NBTHelper.setNBTTagInt(stack1,Name.NBTKey.TAG_CHARGE,Name.NBTKey.TAG_RINGDATA,100);
-            NBTHelper.setNBTTagInt(stack1,Name.NBTKey.TAG_MAX_CHARGE,Name.NBTKey.TAG_RINGDATA,maxcharge);
-            NBTHelper.setNBTTagInt(stack1,Name.NBTKey.TAG_RECHARGERATE,Name.NBTKey.TAG_RINGDATA,rechargerate);
-            NBTHelper.setNBTTagInt(stack1,Name.NBTKey.TAG_DMGINCREASE,Name.NBTKey.TAG_RINGDATA,dmgIncrease);
-            NBTHelper.setNBTTagInt(stack1,Name.NBTKey.TAG_DMGREDUKTION,Name.NBTKey.TAG_RINGDATA,dmgreduction);
-            NBTHelper.setNBTTagInt(stack1,Name.NBTKey.TAG_MININGSPEED,Name.NBTKey.TAG_RINGDATA,minigSpeed);
-            NBTHelper.setNBTTagInt(stack1,Name.NBTKey.TAG_JUMPHIGHT,Name.NBTKey.TAG_RINGDATA,jumphight);
-            NBTHelper.setNBTTagDouble(stack1,Name.NBTKey.TAG_ATTACKSPEED,Name.NBTKey.TAG_RINGDATA,attackspeed);
-        }
+
+        stack1.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setStatus(true);
+        stack1.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setMaxWillpower(maxcharge);
+        stack1.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setRechargerate(rechargerate);
+        stack1.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setDmgIncrease(dmgIncrease);
+        stack1.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setDmgReduction(dmgreduction);
+        stack1.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setMiningSpeed(minigSpeed);
+        stack1.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).setAttackSpeed(attackspeed);
+
         return stack1;
     }
 }

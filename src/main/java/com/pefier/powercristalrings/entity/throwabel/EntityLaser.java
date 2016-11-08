@@ -1,11 +1,11 @@
 package com.pefier.powercristalrings.entity.throwabel;
 
 
+
+import com.pefier.powercristalrings.capability.WillpowerProvider;
 import com.pefier.powercristalrings.entity.damagesource.EntityDamageSourceLaser;
 import com.pefier.powercristalrings.init.ModItems;
-import com.pefier.powercristalrings.reference.Name;
 import com.pefier.powercristalrings.utility.InventoryHelper;
-import com.pefier.powercristalrings.utility.NBTHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -24,7 +24,7 @@ public class EntityLaser extends EntityThrowable {
 
     public EntityLaser(World worldIn, EntityLivingBase throwerIn) {
         super(worldIn, throwerIn);
-        this.dmg = NBTHelper.getNBTTagInt(InventoryHelper.getItemStackinInventory((EntityPlayer)throwerIn, ModItems.ringGreenLantern), Name.NBTKey.TAG_DMGINCREASE,Name.NBTKey.TAG_RINGDATA);
+        this.dmg = InventoryHelper.getItemStackinInventory((EntityPlayer)throwerIn, ModItems.ringGreenLantern).getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getDmgIncrease();
     }
 
     public EntityLaser(World worldIn, double x, double y, double z) {
@@ -45,7 +45,7 @@ public class EntityLaser extends EntityThrowable {
 
         if(position.entityHit != null){
             if(position.entityHit instanceof EntityLivingBase) {
-                position.entityHit.attackEntityFrom(EntityDamageSourceLaser.causeLaserDamage(this, this.getThrower()), 1 + dmg);
+                position.entityHit.attackEntityFrom(EntityDamageSourceLaser.causeLaserDamage(this, this.getThrower()), 2 + dmg);
             }
             this.setDead();
         }

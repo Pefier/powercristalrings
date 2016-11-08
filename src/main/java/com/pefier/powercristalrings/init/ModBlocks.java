@@ -1,10 +1,7 @@
 package com.pefier.powercristalrings.init;
 
 
-import com.pefier.powercristalrings.block.BlockCharger;
-import com.pefier.powercristalrings.block.BlockCraftingSurface;
-import com.pefier.powercristalrings.block.BlockCristallForge;
-import com.pefier.powercristalrings.block.BlockPowerCristallOre;
+import com.pefier.powercristalrings.block.*;
 import net.minecraft.block.Block;
 
 /**
@@ -16,6 +13,9 @@ public class ModBlocks {
     public static Block powerCristallOre;
     public static Block craftingSurface;
     public static Block cristallForge;
+    public static Block oreSpawner;
+    public static Block cable;
+    public static Block solarGenerator;
 
     public static void preinit(){
 
@@ -23,5 +23,8 @@ public class ModBlocks {
         powerCristallOre = new BlockPowerCristallOre();
         craftingSurface = new BlockCraftingSurface();
         cristallForge = new BlockCristallForge();
+        oreSpawner = new BlockOreSpwaner();
+        cable = new BlockCable();
+        solarGenerator = new BlockSolarGenerator();
     }
 }

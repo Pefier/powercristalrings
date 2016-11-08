@@ -1,20 +1,16 @@
 package com.pefier.powercristalrings.entity.tileentity;
 
-import com.pefier.powercristalrings.init.ModItems;
-import com.pefier.powercristalrings.reference.Name;
-import com.pefier.powercristalrings.utility.NBTHelper;
+import com.pefier.powercristalrings.capability.WillpowerProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
-
 import javax.annotation.Nullable;
 
 
@@ -31,6 +27,7 @@ public class TileCharger extends TileEntity implements ITickable,IInventory{
 
 
     }
+
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound){
         super.writeToNBT(compound);
@@ -71,17 +68,12 @@ public class TileCharger extends TileEntity implements ITickable,IInventory{
 
     @Override
     public void update() {
-        int charge;
+
         if(this.getStackInSlot(0)!=null){
-            if (this.getStackInSlot(0).getItem()== ModItems.ringGreenLantern){
+            if (this.getStackInSlot(0).hasCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null)){
+
                 ItemStack itemStack=this.getStackInSlot(0);
-                charge = NBTHelper.getNBTTagInt(itemStack, Name.NBTKey.TAG_CHARGE,Name.NBTKey.TAG_RINGDATA);
-                if(charge < NBTHelper.getNBTTagInt(itemStack, Name.NBTKey.TAG_MAX_CHARGE,Name.NBTKey.TAG_RINGDATA)){
-                    charge+= NBTHelper.getNBTTagInt(itemStack, Name.NBTKey.TAG_RECHARGERATE,Name.NBTKey.TAG_RINGDATA);
-
-                }
-
-                NBTHelper.setNBTTagInt(itemStack, Name.NBTKey.TAG_CHARGE,Name.NBTKey.TAG_RINGDATA, charge);
+                itemStack.getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).rechargeWillpower();
 
             }
 
@@ -161,7 +153,11 @@ public class TileCharger extends TileEntity implements ITickable,IInventory{
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return true;
+
+        if(stack.hasCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -214,4 +210,6 @@ public class TileCharger extends TileEntity implements ITickable,IInventory{
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
         this.readFromNBT(pkt.getNbtCompound());
     }
+
+
 }

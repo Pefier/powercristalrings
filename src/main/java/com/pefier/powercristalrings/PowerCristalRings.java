@@ -33,13 +33,6 @@ public class PowerCristalRings {
         ConfigurationHandler.init(e.getSuggestedConfigurationFile());
         NetworkRegistry.INSTANCE.registerGuiHandler(instance,new GuiHandler());
 
-
-
-
-
-
-
-
     }
     @Mod.EventHandler
     public void init(FMLInitializationEvent e){

@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * Created by New Profile on 03.04.2016.
  */
 public class BlockCraftingSurface extends BlockPCR {
-    private static final String name="CraftingSurface";
+    private static final String name="crafting_surface";
 
     public BlockCraftingSurface(){
         super(Material.PISTON);

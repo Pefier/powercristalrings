@@ -12,7 +12,6 @@ import net.minecraftforge.fml.client.config.GuiConfig;
  */
 public class ModGuiConfig extends GuiConfig {
     public ModGuiConfig(GuiScreen guiScreen) {
-        super(guiScreen,
-                new ConfigElement(ConfigurationHandler.configuration.getCategory(net.minecraftforge.common.config.Configuration.CATEGORY_GENERAL)).getChildElements(), Reference.MOD_ID, "1", false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
+        super(guiScreen, new ConfigElement(ConfigurationHandler.configuration.getCategory(net.minecraftforge.common.config.Configuration.CATEGORY_GENERAL)).getChildElements(), Reference.MOD_ID, "1", false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
     }
 }

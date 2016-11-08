@@ -1,12 +1,12 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "powercristalrings:blocks/Edge",
-        "1": "powercristalrings:blocks/Bottom",
-        "2": "powercristalrings:blocks/BottomTop",
-        "3": "powercristalrings:blocks/TopBottom",
-        "4": "powercristalrings:blocks/Sides",
-        "5": "powercristalrings:blocks/TopForge"
+        "0": "powercristalrings:blocks/edge",
+        "1": "powercristalrings:blocks/bottom",
+        "2": "powercristalrings:blocks/bottom_top",
+        "3": "powercristalrings:blocks/top_bottom",
+        "4": "powercristalrings:blocks/sides",
+        "5": "powercristalrings:blocks/top_forge"
     },
     "elements": [
         {

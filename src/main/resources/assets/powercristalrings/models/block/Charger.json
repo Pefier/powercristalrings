@@ -1,8 +1,8 @@
 {
 	"__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
 	"textures": {
-		"0": "powercristalrings:blocks/Edge",
-		"1": "powercristalrings:blocks/Top"
+		"0": "powercristalrings:blocks/edge",
+		"1": "powercristalrings:blocks/top"
 	},
 	"elements": [
 		{

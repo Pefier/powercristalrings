@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class RenderLaser extends Render<EntityLaser> {
 
-    private static final ResourceLocation laserTextures = new ResourceLocation(Reference.MOD_ID, "textures/entity/Laser.png");
+    private static final ResourceLocation laserTextures = new ResourceLocation(Reference.MOD_ID, "textures/entity/laser.png");
 
     public static Factory FACTORY = new Factory();
 

@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 public class GuiCraftingSurface extends GuiContainer {
 
 
-    public static final ResourceLocation BACKGROUND = new ResourceLocation(Reference.MOD_ID +":textures/gui/CraftingSurface.png");
+    public static final ResourceLocation BACKGROUND = new ResourceLocation(Reference.MOD_ID +":textures/gui/crafting_surface.png");
 
 
     public GuiCraftingSurface(Container inventorySlotsIn) {

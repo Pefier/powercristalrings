@@ -13,7 +13,8 @@ public class ModItems {
     public static Item powerCristall;
     public static Item powerCristallUnlocked;
     public static Item cristallPearl;
-
+    public static Item blink;
+    public static Item testItem;
 
     public static void preinit(){
 
@@ -22,5 +23,8 @@ public class ModItems {
         powerCristall = new ItemPowerCristall();
         powerCristallUnlocked = new ItemPowerCristallUnlocked();
         cristallPearl = new ItemCristallPearl();
+        blink = new ItemBlink();
+        testItem = new ItemTestItem();
+
     }
 }

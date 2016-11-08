@@ -1,6 +1,7 @@
 package com.pefier.powercristalrings.handler;
 
 
+import com.pefier.powercristalrings.capability.WillpowerProvider;
 import com.pefier.powercristalrings.init.ModItems;
 import com.pefier.powercristalrings.reference.Name;
 import com.pefier.powercristalrings.utility.InventoryHelper;
@@ -35,18 +36,15 @@ public class RingHandler {
             return;
         }
 
-        if(!InventoryHelper.getItemStackinInventory(event.getEntityPlayer(),ModItems.ringGreenLantern).hasTagCompound()){
+        if(InventoryHelper.getItemStackinInventory(event.getEntityPlayer(),ModItems.ringGreenLantern).getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getMiningSpeed()<=0){
             return;
         }
-        if(NBTHelper.getNBTTagInt(InventoryHelper.getItemStackinInventory(event.getEntityPlayer(),ModItems.ringGreenLantern), Name.NBTKey.TAG_MININGSPEED,Name.NBTKey.TAG_RINGDATA)<=0){
-            return;
-        }
-        if(event.getOriginalSpeed() >= NBTHelper.getNBTTagInt(InventoryHelper.getItemStackinInventory(event.getEntityPlayer(),ModItems.ringGreenLantern), Name.NBTKey.TAG_MININGSPEED,Name.NBTKey.TAG_RINGDATA)){
+        if(event.getOriginalSpeed() >= InventoryHelper.getItemStackinInventory(event.getEntityPlayer(),ModItems.ringGreenLantern).getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getMiningSpeed()){
             return;
         }
 
         System.out.println("Old Seed: "+event.getOriginalSpeed());
-        event.setNewSpeed((float) NBTHelper.getNBTTagInt(InventoryHelper.getItemStackinInventory(event.getEntityPlayer(),ModItems.ringGreenLantern), Name.NBTKey.TAG_MININGSPEED,Name.NBTKey.TAG_RINGDATA));
+        event.setNewSpeed((float) InventoryHelper.getItemStackinInventory(event.getEntityPlayer(),ModItems.ringGreenLantern).getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getMiningSpeed());
         System.out.println("New Speed"+event.getNewSpeed()+"Old Speed"+event.getOriginalSpeed());
 
 
@@ -69,18 +67,18 @@ public class RingHandler {
             return;
         }
 
-        if(NBTHelper.getNBTTagInt(InventoryHelper.getItemStackinInventory((EntityPlayer)event.getEntityLiving() ,ModItems.ringGreenLantern), Name.NBTKey.TAG_DMGREDUKTION,Name.NBTKey.TAG_RINGDATA)<=0){
+        if(InventoryHelper.getItemStackinInventory((EntityPlayer)event.getEntityLiving() ,ModItems.ringGreenLantern).getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getDmgReduction()<=0){
             return;
         }
 
-        float dmgReduktion =(float)  NBTHelper.getNBTTagInt(InventoryHelper.getItemStackinInventory((EntityPlayer)event.getEntityLiving() ,ModItems.ringGreenLantern), Name.NBTKey.TAG_DMGREDUKTION,Name.NBTKey.TAG_RINGDATA)/100f;
-        int charge = NBTHelper.getNBTTagInt(InventoryHelper.getItemStackinInventory((EntityPlayer)event.getEntityLiving() ,ModItems.ringGreenLantern), Name.NBTKey.TAG_CHARGE,Name.NBTKey.TAG_RINGDATA);
-        System.out.println("damage bevor reduced " +event.getAmount());
-        float x =(dmgReduktion * event.getAmount());
-        charge = charge- (int)(event.getAmount()*2);
-        event.setAmount(event.getAmount()-x);
+        float dmgReduction =(float)  InventoryHelper.getItemStackinInventory((EntityPlayer)event.getEntityLiving() ,ModItems.ringGreenLantern).getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).getDmgReduction()/100f;
 
-        NBTHelper.setNBTTagInt(InventoryHelper.getItemStackinInventory((EntityPlayer)event.getEntityLiving() ,ModItems.ringGreenLantern), Name.NBTKey.TAG_CHARGE,Name.NBTKey.TAG_RINGDATA,charge);
+        System.out.println("damage bevor reduced " +event.getAmount());
+
+        float x =(dmgReduction * event.getAmount());
+
+        InventoryHelper.getItemStackinInventory((EntityPlayer)event.getEntityLiving(),ModItems.ringGreenLantern).getCapability(WillpowerProvider.WILLPOWER_CAPABILITY,null).consumeWillpower((int)event.getAmount()*2);
+        event.setAmount(event.getAmount()-x);
         System.out.println("damage taken "+ event.getAmount());
     }
 

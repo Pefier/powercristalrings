@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public class BlockCharger extends BlockContainerPCR {
 
-    private static final String name="Charger";
+    private static final String name="charger";
 
     public BlockCharger() {
         super(Material.CIRCUITS);

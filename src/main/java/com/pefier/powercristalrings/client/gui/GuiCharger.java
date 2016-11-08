@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class GuiCharger extends GuiContainer {
 
-    public static final ResourceLocation BACKGROUND = new ResourceLocation(Reference.MOD_ID +":textures/gui/Charger.png");
+    public static final ResourceLocation BACKGROUND = new ResourceLocation(Reference.MOD_ID +":textures/gui/charger.png");
 
     public GuiCharger(Container inventorySlotsIn) {
         super(inventorySlotsIn);

@@ -19,13 +19,15 @@ public class ClientProxy extends CommonProxy {
         ItemRenderRegister.preInit();
         EntityRenderRegister.preinit();
         ModSoundHandler.init();
+        BlockRenderRegister.registerBlockRenderer();
+        ItemRenderRegister.registerItemRenderer();
+
     }
 
     @Override
     public void init(FMLInitializationEvent e) {
         super.init(e);
-        ItemRenderRegister.registerItemRenderer();
-        BlockRenderRegister.registerBlockRenderer();
+
     }
 
     @Override

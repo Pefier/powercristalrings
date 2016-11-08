@@ -33,6 +33,7 @@ public class ConfigurationHandler {
             configuration.save();
         }
     }
+
     @SubscribeEvent
     public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event){
 

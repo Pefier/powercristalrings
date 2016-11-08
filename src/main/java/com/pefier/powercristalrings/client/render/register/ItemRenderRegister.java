@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.model.ModelLoader;
 
 /**
  * Created by New Profile on 16.03.2016.
@@ -36,9 +37,11 @@ public class ItemRenderRegister {
         reg(ModItems.powerCristallUnlocked,1,"PowerCristallUnlockedBlue");
         reg(ModItems.powerCristallUnlocked,2,"PowerCristallUnlockedGreen");
         reg(ModItems.powerCristallUnlocked,3,"PowerCristallUnlockedYellow");
-        // no metadata
-        reg(ModItems.cristallPearl);
 
+        // no metadata
+
+        reg(ModItems.cristallPearl);
+        reg(ModItems.blink);
 
 
     }
@@ -46,12 +49,14 @@ public class ItemRenderRegister {
 
 
     public static void reg(Item item) {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(item.getUnlocalizedName().substring(5), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(item,0,new ModelResourceLocation(item.getUnlocalizedName().substring(5), "inventory"));
+
 
     }
 
     public static void reg(Item item, int meta, String file) {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(Reference.MOD_ID + ":" + file, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(item,meta,new ModelResourceLocation(Reference.MOD_ID + ":" + file, "inventory"));
+
     }
 }
 

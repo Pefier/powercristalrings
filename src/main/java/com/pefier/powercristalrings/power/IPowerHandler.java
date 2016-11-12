@@ -11,7 +11,7 @@ public interface IPowerHandler extends IPowerProvider,IPowerReceiver{
     int extractPower(EnumFacing side, int maxExtract, boolean simulate);
 
     @Override
-    int receivePower(EnumFacing side, int maxExtract, boolean simulate);
+    int receivePower(EnumFacing side, int maxReceive, boolean simulate);
 
     @Override
     int getPowerStored(EnumFacing from);

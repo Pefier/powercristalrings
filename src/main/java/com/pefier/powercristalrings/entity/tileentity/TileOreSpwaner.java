@@ -15,36 +15,47 @@ import java.util.Random;
 /**
  * Created by Pefier on 03.11.2016.
  */
-public class TileOreSpwaner extends TileEntity implements ITickable {
+public class TileOreSpwaner extends TileGenericConsumer implements ITickable {
 
     private OreDic oreDic;
     private Random rnd;
     private int types;
-    private int i;
+
 
 
 
     public TileOreSpwaner() {
-        super();
+        super(5000);
         oreDic = new OreDic();
         oreDic.initOres();
         rnd = new Random();
         types=oreDic.stacks.size();
-        i=0;
+        storage =storage.setMaxReceive(200);
+
     }
 
     @Override
     public void update() {
-            if (i > 200) {
-                if (worldObj.getBlockState(this.getPos().offset(EnumFacing.UP)).getBlock() == Blocks.AIR) {
-                    ItemStack stack = oreDic.stacks.get(rnd.nextInt(types));
+        if(storage.getPowerStored()>=500){
 
-                    worldObj.setBlockState(this.getPos().offset(EnumFacing.UP), Block.getBlockFromItem(stack.getItem()).getDefaultState(), 3);
+            consumePower(100);
+            spwanOres();
+        }
 
-                }
-                i = 0;
-            }
 
-            i++;
+
+
+
+
+
+    }
+
+    private void spwanOres(){
+        if (worldObj.getBlockState(this.getPos().offset(EnumFacing.UP)).getBlock() == Blocks.AIR) {
+            ItemStack stack = oreDic.stacks.get(rnd.nextInt(types));
+
+            worldObj.setBlockState(this.getPos().offset(EnumFacing.UP), Block.getBlockFromItem(stack.getItem()).getDefaultState(), 3);
+
+        }
     }
 }

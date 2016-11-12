@@ -1,11 +1,14 @@
 package com.pefier.powercristalrings.block;
 
 import com.pefier.powercristalrings.entity.tileentity.TileCable;
+import com.pefier.powercristalrings.power.PowerGrid;
 import com.pefier.powercristalrings.reference.Reference;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -34,6 +37,7 @@ public class BlockCable extends BlockPCR implements ITileEntityProvider {
         GameRegistry.register(this);
         GameRegistry.register(new ItemBlock(this).setRegistryName(Reference.MOD_ID,name));
         GameRegistry.registerTileEntity(TileCable.class,name);
+        //GameRegistry.registerTileEntity(PowerGrid.class,"PowerGrid");
         this.setHardness(1.5F);
         this.setResistance(2000F);
         this.useNeighborBrightness=true;
@@ -49,13 +53,20 @@ public class BlockCable extends BlockPCR implements ITileEntityProvider {
         return new AxisAlignedBB(11*pixel/2,11*pixel/2,11*pixel/2,1-11*pixel/2,1-11*pixel/2,1-11*pixel/2);
     }
 
-
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        TileEntity tileEntity =worldIn.getTileEntity(pos);
+        if(tileEntity instanceof TileCable){
+            ((TileCable)tileEntity).init();
+        }
+    }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
 
-
-        return new TileCable(200);
+        TileCable cable = new TileCable();
+        return cable;
     }
 
     @Override
@@ -74,6 +85,14 @@ public class BlockCable extends BlockPCR implements ITileEntityProvider {
         return false;
     }
 
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        if(!worldIn.isRemote) {
+            if (worldIn.getTileEntity(pos) instanceof TileCable) {
+                ((TileCable) worldIn.getTileEntity(pos)).grid.removeFromGrid((TileCable) worldIn.getTileEntity(pos));
+            }
+        }
 
-
+        super.breakBlock(worldIn, pos, state);
+    }
 }

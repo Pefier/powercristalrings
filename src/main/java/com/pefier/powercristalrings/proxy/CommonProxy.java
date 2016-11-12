@@ -1,8 +1,6 @@
 package com.pefier.powercristalrings.proxy;
 
-import com.pefier.powercristalrings.capability.IWillpower;
-import com.pefier.powercristalrings.capability.Willpower;
-import com.pefier.powercristalrings.capability.WillpowerStorage;
+import com.pefier.powercristalrings.capability.*;
 import com.pefier.powercristalrings.client.handler.OverlayHandler;
 import com.pefier.powercristalrings.crafting.VanillaRecepies;
 import com.pefier.powercristalrings.handler.ConfigurationHandler;
@@ -26,6 +24,7 @@ public abstract class CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
 
         CapabilityManager.INSTANCE.register(IWillpower.class,new WillpowerStorage(), Willpower.class);
+        CapabilityCreeperPower.register();
         ModItems.preinit();
         ModBlocks.preinit();
         ModEntitys.init();
@@ -33,7 +32,7 @@ public abstract class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ConfigurationHandler());
         MinecraftForge.EVENT_BUS.register(new OverlayHandler());
         MinecraftForge.EVENT_BUS.register(new RingHandler());
-
+        MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
     }
 
     public void init(FMLInitializationEvent e) {

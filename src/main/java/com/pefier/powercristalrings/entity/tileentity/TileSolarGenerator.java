@@ -1,24 +1,19 @@
 package com.pefier.powercristalrings.entity.tileentity;
 
-import com.pefier.powercristalrings.power.IPowerProvider;
-import com.pefier.powercristalrings.power.IPowerReceiver;
-import com.pefier.powercristalrings.power.implementation.PowerStorage;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
 /**
  * Created by Pefier on 02.11.2016.
  */
-public class TileSolarGenerator extends TileEntity implements IPowerProvider ,ITickable {
+public class TileSolarGenerator extends TileGenericGenerator implements ITickable {
 
-    PowerStorage storage = new PowerStorage(32000);
+
 
 
     public TileSolarGenerator(){
-
+        super(3200);
 
 
     }
@@ -26,54 +21,65 @@ public class TileSolarGenerator extends TileEntity implements IPowerProvider ,IT
 
     @Override
     public void update() {
-        /**
-         * Worldtime 0-23999 int ticks*/
+        //TODO WHEN GIVE HOW MUCH POWER
+        /**0-12000 ticks == Daytime
+         * 12000-23999 ticks == nighttime
+         * Worldtime 0-23999 int ticks
+         *
+         * Colors Used to detmiter power generation
+         *  Yellow,Blue,Yellow,red,Green,red=>
+         *  0-4000,4000-10.000,10.000-12.000,12.000-15.000,15.000-21.000,21.000-24.000
+         *
+         *
+         * */
         if(worldObj.canSeeSky(this.getPos().offset(EnumFacing.UP,2))){
-                System.out.println("I see sky");
-
             if(worldObj.getBlockState(this.getPos().offset(EnumFacing.UP)).getBlock()== Blocks.STAINED_GLASS){
-                if(worldObj.getBlockState(this.getPos().offset(EnumFacing.UP)).getBlock().getMetaFromState(worldObj.getBlockState(this.getPos().offset(EnumFacing.UP))) == 12)
+                outputPower(200);
+                switch(worldObj.getBlockState(this.getPos().offset(EnumFacing.UP)).getBlock().getMetaFromState(worldObj.getBlockState(this.getPos().offset(EnumFacing.UP)))){
+                    //BlueCase
+                    case  11: {
+                        if(worldObj.getWorldTime()<10000 && worldObj.getWorldTime() > 4000){
 
-                System.out.println("I see Green Glass");
+                            System.out.println("I see Blue Glass");
+                        }
 
+
+                        return;
+                    }
+                    //GreenCase
+                    case  13:{
+                        if(worldObj.getWorldTime()<21000 && worldObj.getWorldTime() > 15000){
+                            System.out.println("I see Green Glass");
+
+                        }
+
+                        return;
+                    }
+                    //RedCase
+                    case  14:{
+                        if((worldObj.getWorldTime()<15000 && worldObj.getWorldTime() >12000) || (worldObj.getWorldTime()<24000&& worldObj.getWorldTime() > 21000)){
+                            System.out.println("I see Red Glass");
+
+                        }
+
+                        return;
+                    }
+                    //YellowCase
+                    case 4: {
+                        if((worldObj.getWorldTime()<4000 && worldObj.getWorldTime() >0) || (worldObj.getWorldTime()<12000&& worldObj.getWorldTime() > 10000)){
+                            System.out.println("I see Yellow Glass");
+
+                        }
+
+                        return;
+                    }
+
+                    default: //System.out.println("NOP");
+                         return;
+                }
             }
-
         }
 
-
-        storage.receivePower(32000,false);
-        for(EnumFacing direction: EnumFacing.values()){
-            TileEntity tileEntity = worldObj.getTileEntity(this.getPos().offset(direction));
-            if(tileEntity instanceof IPowerReceiver){
-                int value = ((IPowerReceiver)tileEntity).receivePower(direction.getOpposite(),extractPower(direction,100,true),true);
-                if(value > 0)
-                    ((IPowerReceiver)tileEntity).receivePower(direction.getOpposite(),extractPower(direction,100,false),false);
-
-            }
-
-        }
-
-
     }
 
-
-    @Override
-    public int extractPower(EnumFacing side, int maxExtract, boolean simulate) {
-        return storage.extractPower(maxExtract,simulate);
-    }
-
-    @Override
-    public int getPowerStored(EnumFacing from) {
-        return storage.getPowerStored();
-    }
-
-    @Override
-    public int getCapacity(EnumFacing from) {
-        return storage.getCapacity();
-    }
-
-    @Override
-    public boolean canConnectPower(EnumFacing from) {
-        return true;
-    }
 }

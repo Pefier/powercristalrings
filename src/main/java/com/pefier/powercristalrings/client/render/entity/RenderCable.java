@@ -36,12 +36,6 @@ public class RenderCable extends TileEntitySpecialRenderer<TileCable>{
             }
 
         }
-
-
-
-
-
-
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glTranslated(-x,-y,-z);
 
@@ -49,12 +43,6 @@ public class RenderCable extends TileEntitySpecialRenderer<TileCable>{
     }
 
     public void drawConection(EnumFacing facing){
-
-
-
-
-
-
 
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer vertexbuffer = tessellator.getBuffer();

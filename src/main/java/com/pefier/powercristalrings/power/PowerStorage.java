@@ -1,13 +1,9 @@
-package com.pefier.powercristalrings.power.implementation;
-
-import com.pefier.powercristalrings.power.IPowerStorage;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.INBTSerializable;
+package com.pefier.powercristalrings.power;
 
 /**
  * Created by Pefier on 08.11.2016.
  */
-public class PowerStorage implements IPowerStorage, INBTSerializable<NBTTagCompound> {
+public class PowerStorage implements IPowerStorage {
 
     protected int power;
     protected int maxReceive;
@@ -19,7 +15,7 @@ public class PowerStorage implements IPowerStorage, INBTSerializable<NBTTagCompo
     }
 
     public PowerStorage(int capacity, int maxTransferRate) {
-        this(capacity,maxTransferRate,maxTransferRate);
+        this(maxTransferRate,maxTransferRate,capacity);
     }
 
     public PowerStorage(int maxReceive, int maxExtract, int capacity) {
@@ -99,23 +95,5 @@ public class PowerStorage implements IPowerStorage, INBTSerializable<NBTTagCompo
     @Override
     public int getCapacity() {
         return this.capacity;
-    }
-
-
-
-    @Override
-    public NBTTagCompound serializeNBT() {
-        NBTTagCompound tag = new NBTTagCompound();
-        tag.setInteger("power",this.power);
-        return tag;
-    }
-
-    @Override
-    public void deserializeNBT(NBTTagCompound nbt) {
-        this.power = nbt.getInteger("power");
-        if (power > capacity) {
-            power = capacity;
-        }
-
     }
 }

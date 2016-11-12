@@ -16,6 +16,8 @@ public class ModBlocks {
     public static Block oreSpawner;
     public static Block cable;
     public static Block solarGenerator;
+    public static Block creeperGenerator;
+    public static Block testCable;
 
     public static void preinit(){
 
@@ -26,5 +28,7 @@ public class ModBlocks {
         oreSpawner = new BlockOreSpwaner();
         cable = new BlockCable();
         solarGenerator = new BlockSolarGenerator();
+        creeperGenerator = new BlockCreeperGenerator();
+        testCable = new BlockPowerCable();
     }
 }

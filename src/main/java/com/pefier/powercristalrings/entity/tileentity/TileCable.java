@@ -1,12 +1,16 @@
 package com.pefier.powercristalrings.entity.tileentity;
 
-import com.pefier.powercristalrings.power.IPowerConnection;
-import com.pefier.powercristalrings.power.IPowerHandler;
-import com.pefier.powercristalrings.power.implementation.PowerStorage;
+import com.pefier.powercristalrings.power.*;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.util.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,16 +22,56 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
      *  UP, DOWN NORTH, EAST SOUTH, WEST
      * */
     public EnumFacing[] connections = new EnumFacing[6];
-    protected PowerStorage storage;
-    public int output;
+    public PowerGrid grid;
 
 
-    public TileCable(int output){
-        this.output = output;
-        this.storage = new PowerStorage(200);
-        this.storage.setMaxExtract(output);
-        this.storage.setMaxReceive(output);
-        this.storage.setMaxTransferRate(output);
+    public TileCable(){
+
+
+
+
+    }
+
+
+    public void init() {
+        boolean initialized =true;
+        boolean flag = true;
+        boolean update =false;
+
+        for (EnumFacing direction : EnumFacing.values()){
+            TileEntity tileEntity = worldObj.getTileEntity(this.getPos().offset(direction));
+            if(tileEntity instanceof TileCable){
+
+                if(flag){
+                    grid=((TileCable)tileEntity).grid;
+                    grid.addtoGrid(this);
+                    ((TileCable)tileEntity).grid=grid;
+                    flag=false;
+
+                }else{
+                    grid=grid.mergeGrids(((TileCable)tileEntity).grid,grid);
+                    update=true;
+                }
+                if(update){
+                    updateGrid();
+
+                }
+                initialized = false;
+            }
+        }
+        if(initialized){
+            grid=new PowerGrid();
+            grid.addtoGrid(this);
+        }
+    }
+
+    public void updateGrid(){
+        if(worldObj!=null) {
+            for (long temp : grid.cabelpos) {
+                if (worldObj.getTileEntity(BlockPos.fromLong(temp)) instanceof TileCable)
+                    ((TileCable) (worldObj.getTileEntity(BlockPos.fromLong(temp)))).grid = grid;
+            }
+        }
 
     }
 
@@ -71,19 +115,27 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
     @Override
     public void update() {
         this.updateConnections();
-        if(storage.getPowerStored() > 0){
-            for (EnumFacing direction : EnumFacing.values()){
-                TileEntity tileEntity = worldObj.getTileEntity(this.getPos().offset(direction));
-                if(tileEntity instanceof IPowerHandler){
-                    System.out.println("isIn Power ");
-                    int maxExtract = storage.getMaxExtract();
-                    int maxPowerAvilebale = storage.extractPower(maxExtract,true);
-                    int powerTransferd = ((IPowerHandler) tileEntity).receivePower(direction,maxPowerAvilebale,false);
 
-                    storage.extractPower(powerTransferd,false);
+
+        if(grid !=null) {
+            updateGrid();
+            if (grid.powerStorage.getPowerStored() > 0) {
+
+                for (EnumFacing direction : EnumFacing.values()) {
+                    TileEntity tileEntity = worldObj.getTileEntity(this.getPos().offset(direction));
+                    if (tileEntity instanceof IPowerReceiver && !(tileEntity instanceof TileCable)) {
+                        int maxExtract = grid.powerStorage.getMaxExtract();
+                        int maxPowerAvilebale = grid.powerStorage.extractPower(maxExtract, true);
+                        int powerTransferd = ((IPowerReceiver) tileEntity).receivePower(direction, maxPowerAvilebale, false);
+                        grid.powerStorage.extractPower(powerTransferd, false);
+                    }
                 }
+
+
             }
 
+            System.out.println("energyStored" + grid.powerStorage.getPowerStored() + " Capacity" + grid.powerStorage.getCapacity());
+        }else{
 
         }
 
@@ -93,12 +145,37 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        return super.writeToNBT(compound);
+        super.writeToNBT(compound);
+
+        NBTTagList nbtTagList = new NBTTagList();
+        for (int i=0;i<grid.cabelpos.size();i++){
+            NBTTagCompound tag = new NBTTagCompound();
+            double d = (double)grid.cabelpos.get(i);
+            tag.setDouble("cable" + i, d);
+            nbtTagList.appendTag(tag);
+        }
+        System.out.println(nbtTagList.toString());
+
+        compound.setTag("cableList",nbtTagList);
+        return compound;
+
+
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
+        NBTTagList nbttaglist = compound.getTagList("cableList", Constants.NBT.TAG_COMPOUND);
+        List<Long> list =new ArrayList<Long>();
+
+        for (int i=0;i<nbttaglist.tagCount();i++) {
+            NBTTagCompound tag = nbttaglist.getCompoundTagAt(i);
+            double x = tag.getDouble("cable"+i);
+            list.add(new Double(x).longValue());
+        }
+
+        grid=new PowerGrid(list);
+        updateGrid();
 
     }
 
@@ -111,21 +188,21 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
 
     @Override
     public int extractPower(EnumFacing side, int maxExtract, boolean simulate) {
-        return storage.extractPower(maxExtract, simulate);
+        return grid.powerStorage.extractPower(maxExtract, simulate);
     }
 
     @Override
     public int receivePower(EnumFacing side, int maxExtract, boolean simulate) {
-        return storage.receivePower(maxExtract,simulate);
+        return grid.powerStorage.receivePower(maxExtract,simulate);
     }
 
     @Override
     public int getPowerStored(EnumFacing from) {
-        return storage.getPowerStored();
+        return grid.powerStorage.getPowerStored();
     }
 
     @Override
     public int getCapacity(EnumFacing from) {
-        return storage.getCapacity();
+        return grid.powerStorage.getCapacity();
     }
 }

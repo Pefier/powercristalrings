@@ -7,7 +7,7 @@ import net.minecraft.util.EnumFacing;
  */
 public interface IPowerReceiver extends IPowerConnection {
 
-    int receivePower(EnumFacing side, int maxExtract, boolean simulate);
+    int receivePower(EnumFacing side, int maxReceive, boolean simulate);
 
     /**
      * Returns the amount of energy currently stored.

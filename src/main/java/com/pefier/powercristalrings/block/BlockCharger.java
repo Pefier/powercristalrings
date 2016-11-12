@@ -4,6 +4,7 @@ import com.pefier.powercristalrings.PowerCristalRings;
 import com.pefier.powercristalrings.entity.tileentity.TileCharger;
 import com.pefier.powercristalrings.reference.Name;
 import com.pefier.powercristalrings.reference.Reference;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 /**
  * Created by New Profile on 21.03.2016.
  */
-public class BlockCharger extends BlockContainerPCR {
+public class BlockCharger extends BlockPCR implements ITileEntityProvider {
 
     private static final String name="charger";
 

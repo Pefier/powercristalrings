@@ -36,9 +36,10 @@ public class TileOreSpwaner extends TileGenericConsumer implements ITickable {
 
     @Override
     public void update() {
+        inputPower(100);
         if(storage.getPowerStored()>=500){
 
-            consumePower(100);
+            consumePower(1000);
             spwanOres();
         }
 

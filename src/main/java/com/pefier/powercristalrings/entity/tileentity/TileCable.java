@@ -119,26 +119,9 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
 
         if(grid !=null) {
             updateGrid();
-            if (grid.powerStorage.getPowerStored() > 0) {
-
-                for (EnumFacing direction : EnumFacing.values()) {
-                    TileEntity tileEntity = worldObj.getTileEntity(this.getPos().offset(direction));
-                    if (tileEntity instanceof IPowerReceiver && !(tileEntity instanceof TileCable)) {
-                        int maxExtract = grid.powerStorage.getMaxExtract();
-                        int maxPowerAvilebale = grid.powerStorage.extractPower(maxExtract, true);
-                        int powerTransferd = ((IPowerReceiver) tileEntity).receivePower(direction, maxPowerAvilebale, false);
-                        grid.powerStorage.extractPower(powerTransferd, false);
-                    }
-                }
-
-
-            }
 
             System.out.println("energyStored" + grid.powerStorage.getPowerStored() + " Capacity" + grid.powerStorage.getCapacity());
-        }else{
-
         }
-
 
     }
 

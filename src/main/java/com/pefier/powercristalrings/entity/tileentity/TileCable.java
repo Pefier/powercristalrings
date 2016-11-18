@@ -9,8 +9,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -27,12 +26,12 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
 
     public TileCable(){
 
-
-
-
     }
 
-
+    /**
+     * Initializes the cable network.
+     * when cables are placed next to another cable or in the World.
+     * */
     public void init() {
         boolean initialized =true;
         boolean flag = true;
@@ -64,7 +63,9 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
             grid.addtoGrid(this);
         }
     }
-
+    /**
+     * Updates the Power Grid in the Tile Entitys thata are on the powerGrid and makes it referenc one power grid;
+     * */
     public void updateGrid(){
         if(worldObj!=null) {
             for (long temp : grid.cabelpos) {
@@ -75,8 +76,84 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
 
     }
 
+    /***/
+    public void removeFromGrid(){
+        int connections=0;
+        TileEntity tile;
+        for (EnumFacing side : EnumFacing.values()){
+             tile = worldObj.getTileEntity(this.getPos().offset(side));
+            if(tile instanceof TileCable){
+                connections++;
+            }
+        }
+        if(connections>=2){
+            for (EnumFacing side : EnumFacing.values()){
+                tile = worldObj.getTileEntity(this.getPos().offset(side));
+                if(tile instanceof TileCable){
+                    LinkedHashSet<Long> set= new LinkedHashSet<Long>();
+                    set.add(tile.getPos().toLong());
+                    set = buildCableTree(set,grid.cabelpos);
+                    System.out.println("Not "+set.toString());
 
 
+                }
+            }
+        }
+
+
+
+        grid.removeFromGrid(this);
+    }
+
+    private LinkedHashSet<Long> buildCableTree(LinkedHashSet<Long> setIn,List<Long> listIn){
+        List<Long> list= new ArrayList<Long>(listIn);
+        LinkedHashSet<Long> set = new LinkedHashSet<Long>(setIn);
+        list.remove(this.getPos().toLong());
+        boolean added=true;
+        int i =0;
+        System.out.println("enter while loop"+list.size());
+        while (list.size()>=1){
+            System.out.println("enter while loop");
+            added=false;
+            for(Long value : set){
+
+                System.out.println("enter while loop Itérator");
+                for (EnumFacing side : EnumFacing.values()){
+
+                    TileEntity tile = worldObj.getTileEntity(BlockPos.fromLong(value).offset(side));
+                    if(tile instanceof TileCable) {
+
+                        if (list.contains(tile.getPos().toLong())){
+
+                            set.add(tile.getPos().toLong());
+                            list.remove(tile.getPos().toLong());
+                            System.out.println(set.toString());
+                            added=true;
+                        }
+                    }
+                }
+            }
+            if(!added){
+                break;
+            }
+
+
+
+
+        }
+
+      return set ;
+    }
+
+
+
+
+
+
+
+    /**
+     * Updates the connections for the TESR that pipes are rendered with the right Connection
+     * */
     public void updateConnections(){
         if(this.worldObj.getTileEntity(this.getPos().offset(EnumFacing.UP)) instanceof IPowerConnection){
             connections[0] = EnumFacing.UP;
@@ -116,28 +193,27 @@ public class TileCable extends TileEntity implements IPowerHandler,ITickable{
     public void update() {
         this.updateConnections();
 
-
-        if(grid !=null) {
+        //Locks if Grid is not null and updates it net to do something that it not updates every tick;
+        if(grid != null) {
             updateGrid();
 
-            System.out.println("energyStored" + grid.powerStorage.getPowerStored() + " Capacity" + grid.powerStorage.getCapacity());
+            //System.out.println("energyStored" + grid.powerStorage.getPowerStored() + " Capacity" + grid.powerStorage.getCapacity());
         }
 
     }
-
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 
         NBTTagList nbtTagList = new NBTTagList();
-        for (int i=0;i<grid.cabelpos.size();i++){
+        int i =0;
+        for (long temp: grid.cabelpos){
             NBTTagCompound tag = new NBTTagCompound();
-            double d = (double)grid.cabelpos.get(i);
-            tag.setDouble("cable" + i, d);
+            double d = (double)temp;
+            tag.setDouble("cable" + i++, d);
             nbtTagList.appendTag(tag);
         }
-        System.out.println(nbtTagList.toString());
 
         compound.setTag("cableList",nbtTagList);
         return compound;

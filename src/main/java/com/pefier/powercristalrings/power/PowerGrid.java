@@ -7,6 +7,7 @@ import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -21,7 +22,6 @@ public class PowerGrid {
     private static final int NODE_TRANSFER = 200;
 
 
-
     public PowerGrid(){
         powerStorage = new PowerStorage(NODE_STORAGE,NODE_TRANSFER);
 
@@ -33,13 +33,16 @@ public class PowerGrid {
         this.cabelpos = cabelpos;
         balanceGrid();
     }
-
+    /**Balances the Power grids Capacity
+     * */
     public void balanceGrid(){
         powerStorage.setCapacity(cabelpos.size()*1200);
 
     }
 
-
+    /**adds a cable to the grid
+     * @param cable the cable that is added
+     * */
     public void addtoGrid(TileCable cable){
 
         cabelpos.add(cable.getPos().toLong());

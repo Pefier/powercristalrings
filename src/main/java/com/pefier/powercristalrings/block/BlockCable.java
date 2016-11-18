@@ -7,10 +7,13 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
@@ -37,7 +40,6 @@ public class BlockCable extends BlockPCR implements ITileEntityProvider {
         GameRegistry.register(this);
         GameRegistry.register(new ItemBlock(this).setRegistryName(Reference.MOD_ID,name));
         GameRegistry.registerTileEntity(TileCable.class,name);
-        //GameRegistry.registerTileEntity(PowerGrid.class,"PowerGrid");
         this.setHardness(1.5F);
         this.setResistance(2000F);
         this.useNeighborBrightness=true;
@@ -89,10 +91,24 @@ public class BlockCable extends BlockPCR implements ITileEntityProvider {
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         if(!worldIn.isRemote) {
             if (worldIn.getTileEntity(pos) instanceof TileCable) {
-                ((TileCable) worldIn.getTileEntity(pos)).grid.removeFromGrid((TileCable) worldIn.getTileEntity(pos));
+                ((TileCable) worldIn.getTileEntity(pos)).removeFromGrid();
             }
         }
 
         super.breakBlock(worldIn, pos, state);
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if(!worldIn.isRemote) {
+            if (worldIn.getTileEntity(pos) instanceof TileCable) {
+                System.out.println(pos.toLong());
+            }
+        }
+
+
+
+
+        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 }
